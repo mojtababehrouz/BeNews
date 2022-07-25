@@ -5,9 +5,11 @@ import {
   CssBaseline,
   Typography,
   makeStyles,
+  useTheme,
+  useMediaQuery,
 } from "@material-ui/core";
 import { Link } from "react-router-dom";
-import { BlockRounded, CallMissedSharp } from "@material-ui/icons";
+import DrawerComponent from "./DrawerComponent";
 
 const useStyles = makeStyles((theme) => ({
   navlinks: {
@@ -31,27 +33,28 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 function Navbar() {
+  const theme = useTheme();
+  const isMobile = useMediaQuery(theme.breakpoints.down("md"));
   const classes = useStyles();
 
   return (
     <AppBar position="fixed">
       <CssBaseline />
       <Toolbar className="bg-green-400">
+        {isMobile ? <DrawerComponent /> : null}
         <Typography variant="h3" className={classes.logo}>
           BeNews
         </Typography>
-        <div className={classes.navlinks}>
-          <Link to="/" className={classes.link}>
-            Home
-          </Link>
-          <Link to="/about" className={classes.link}>
-            About
-          </Link>
-
-          <Link to="/articles" className={classes.link}>
-            Articles
-          </Link>
-        </div>
+        {isMobile ? null : (
+          <div className={classes.navlinks}>
+            <Link to="/" className={classes.link}>
+              Home
+            </Link>
+            <Link to="/articles" className={classes.link}>
+              Articles
+            </Link>
+          </div>
+        )}
       </Toolbar>
     </AppBar>
   );

@@ -1,30 +1,22 @@
-import { display } from "@mui/system";
 import { useState, useEffect } from "react";
 import "./App.css";
-import { Articles } from "./Components/Articles";
-import Navbar from "./Components/Navbar";
-import {
-  BrowserRouter as Router,
-  Switch,
-  Routes,
-  Route,
-} from "react-router-dom";
-import SearchForm from "./Components/SearchForm";
-import { Footer } from "./Components/Footer";
+import { Articles } from "./Components/Articles/Articles";
+import Navbar from "./Components/Navbar/Navbar";
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import SearchForm from "./Components/Articles/SearchForm";
 import { Home } from "./Components/Home";
 
 function App() {
   const [articles, setArticles] = useState([]);
   const [term, setTerm] = useState("everything");
   const [isLoading, setIsLoading] = useState(true);
-  const [page, setPage] = useState(1);
   const [articlesPerPage, setArticlesPerPage] = useState(10);
 
   useEffect(() => {
     const fetchArticles = async () => {
       try {
         const res = await fetch(
-          `https://newsapi.org/v2/everything?q=${term}&pageSize=${articlesPerPage}&page=${page}&from=2022-07-03&sortBy=popularity&apiKey=15398f05386b45b5ad447fc95ccdda02`
+          `https://newsapi.org/v2/everything?q=${term}&pageSize=${articlesPerPage}&from=2022-07-03&sortBy=popularity&apiKey=15398f05386b45b5ad447fc95ccdda02`
         );
         const data = await res.json();
 
@@ -36,7 +28,7 @@ function App() {
     };
     fetchArticles();
     setIsLoading(false);
-  }, [term]);
+  }, [term, articlesPerPage]);
 
   return (
     <Router>
@@ -54,15 +46,18 @@ function App() {
                 }}
               ></SearchForm>
               <Articles articles={articles} loading={isLoading} />
-              <button
-                onClick={() =>
-                  setPage((page) => {
-                    return page + 1;
-                  })
-                }
-              >
-                More Articles...
-              </button>
+              <div className="grid place-items-center">
+                <button
+                  onClick={() =>
+                    setArticlesPerPage((articlesPerPage) => {
+                      return articlesPerPage + articlesPerPage;
+                    })
+                  }
+                  className="bg-green-400 py-4 px-10 my-3 rounded-lg text-white text-2xl"
+                >
+                  More Articles...
+                </button>
+              </div>
             </>
           }
         ></Route>

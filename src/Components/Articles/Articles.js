@@ -8,16 +8,8 @@ export const Articles = ({ loading, articles }) => {
       ) : (
         <section className="grid grid-cols-1 lg:grid-cols-2 gap-20 px-5 pt-10 pb-20 ">
           {articles.map((articles) => {
-            const {
-              author,
-              content,
-              description,
-              publishedAt,
-              source: { id },
-              title,
-              url,
-              urlToImage,
-            } = articles;
+            const { author, content, publishedAt, title, url, urlToImage } =
+              articles;
 
             return (
               <article
@@ -38,7 +30,12 @@ export const Articles = ({ loading, articles }) => {
                     {publishedAt}
                   </li>
                 </ul>
-                <a href={url} target="_blank" className="underline">
+                <a
+                  href={url}
+                  rel="noreferrer"
+                  target="_blank"
+                  className="underline"
+                >
                   Web Ressource
                 </a>
               </article>
